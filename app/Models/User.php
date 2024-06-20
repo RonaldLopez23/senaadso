@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'address',
+        'rol'
     ];
 
     /**
@@ -40,6 +42,14 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
+
+    /**
+     * Relación con el modelo Pedido.
+     * Un usuario puede tener muchos pedidos.
+     */
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class);
+    }
 }
