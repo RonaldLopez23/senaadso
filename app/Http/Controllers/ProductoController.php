@@ -10,19 +10,19 @@ class ProductoController extends Controller
 {
     public function __construct()
     {
-        // Solo los usuarios autenticados pueden acceder a las rutas de este controlador
+        //Sólo los usuarios autenticados y rol admin pueden acceder a todas las rutas de este controlador
+        //los usuarios autenticados y rol diferente de admin pueden acceder únicamente al método index de este controlador
         $this->middleware('auth');
-        // Solo los usuarios con rol de admin pueden acceder a todas las rutas, excepto 'index'
         $this->middleware('admin')->except('index');
     }
-
+    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $productos = Producto::orderBy('nombre')->get();
-        return view('productos.index', compact('productos'));
+        return view('productos.index', ['productos' => $productos]);
     }
 
     /**
@@ -31,13 +31,11 @@ class ProductoController extends Controller
     public function create()
     {
         $categorias = Categoria::orderBy('nombre')->get();
-        
-        // Si no hay categorías, redirigir al formulario de creación de categorías
+        //si no existen categorias, redirigir a la vista de creación de categorias
         if ($categorias->isEmpty()) {
-            return redirect()->route('categorias.create')->with('warning', 'No hay categorías disponibles. Por favor, crea al menos una categoría antes de continuar.');
+            return redirect()->route('categorias.create')->with('info', 'Primero debes crear una categoría');
         }
-        
-        return view('productos.create', compact('categorias'));
+        return view('productos.create', ['categorias' => $categorias]);
     }
 
     /**
@@ -45,16 +43,8 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|max:255',
-            'descripcion' => 'nullable',
-            'precio' => 'required|numeric|min:0',
-            'categoria_id' => 'required|exists:categorias,id',
-        ]);
-
         Producto::create($request->all());
-        
-        return redirect()->route('productos.index')->with('info', 'Producto creado exitosamente.');
+        return redirect()->route('productos.index')->with('info', 'Producto creado con éxito');
     }
 
     /**
@@ -62,7 +52,7 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        // Método no implementado en este caso
+        //
     }
 
     /**
@@ -70,8 +60,8 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
-        $categorias = Categoria::orderBy('nombre')->get();
-        return view('productos.edit', compact('producto', 'categorias'));
+        $categorias = Categoria::all();
+        return view('productos.edit', ['producto' => $producto, 'categorias' => $categorias]);
     }
 
     /**
@@ -79,16 +69,8 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        $request->validate([
-            'nombre' => 'required|max:255',
-            'descripcion' => 'nullable',
-            'precio' => 'required|numeric|min:0',
-            'categoria_id' => 'required|exists:categorias,id',
-        ]);
-
         $producto->update($request->all());
-        
-        return redirect()->route('productos.index')->with('info', 'Producto actualizado exitosamente.');
+        return redirect()->route('productos.index')->with('info', 'Producto actualizado con éxito');
     }
 
     /**
@@ -97,6 +79,6 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         $producto->delete();
-        return redirect()->route('productos.index')->with('info', 'Producto eliminado exitosamente.');
+        return redirect()->route('productos.index')->with('info', 'Producto eliminado con éxito');
     }
 }

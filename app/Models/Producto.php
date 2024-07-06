@@ -8,35 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
+    protected $fillable = ['nombre', 'descripcion', 'precio', 'stock', 'categoria_id'];
 
-    // Los atributos que son asignables en masa
-    protected $fillable = [
-        'nombre', 
-        'descripcion', 
-        'precio', 
-        'stock', 
-        'categoria_id'
-    ];
-
-    /**
-     * Relación con el modelo Categoria.
-     * Un producto pertenece a una categoría.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class);
+        return $this->belongsTo(Categoria::class);  // Un producto pertenece a una categoria
     }
 
-    /**
-     * Relación con el modelo Pedido.
-     * Un producto puede pertenecer a muchos pedidos con un campo adicional 'cantidad'.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
     public function pedidos()
     {
-        return $this->belongsToMany(Pedido::class)->withPivot('cantidad');
+        return $this->belongsToMany(Pedido::class)->withPivot('cantidad', 'precio');  // Un producto puede estar en varios pedidos
     }
 }

@@ -8,33 +8,31 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-<header>
-    {{-- navbar --}}
-    @include('partials.navigation')
-</header>
-<main>
-    {{-- Título Cabecera --}}
-    <div class="bg-green-100 my-4 text-center">
-        <h1 class="text-lg font-semibold m-4 uppercase">@yield('titulo')</h1>
-    </div>
-    {{-- Mensajes informativos --}}
-    @if (session('info'))
-        <div class="flex justify-end m-4">
-            <div class="alert alert-info w-96">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m0-4h.01M12 19.5a7.5 7.5 0 10-15 0 7.5 7.5 0 0015 0zm-7.5 0H3m0-7.5h.01M12 7.5a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" />
-                </svg>
-                <span>{{ session('info') }}</span>
-            </div>
+    <header>
+        {{-- navbar --}}
+        @include('partials.navigation')
+    </header>
+    <main>
+        {{-- Título Cabecera --}}
+        <div class="bg-green-100 my-4 text-center">
+            <h1 class="text-lg font-semibold m-4 uppercase">@yield('cabecera')</h1>
         </div>
-    @endif
-    {{-- Contenido --}}
-    @yield('contenido')
-</main>
-<footer class="footer footer-center p-4 bg-base-300 text-base-content">
-    <div>
-        <p>Copyright © 2024 - MiniMercado</p>
-    </div>
-</footer>
+        {{-- Mensajes informativos --}}
+        @if (session('info'))
+            <div class="flex justify-end m-4">
+                <div class="alert alert-info w-96">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>{{session('info')}}</span>
+                </div>
+            </div>
+        @endif
+        {{-- Contenido --}}
+        @yield('contenido')
+    </main>
+    <footer class="footer footer-center p-4 bg-base-300 text-base-content mt-12">
+        <div>
+          <p>Copyright © 2024 - MiniMercado</p>
+        </div>
+    </footer>
 </body>
 </html>

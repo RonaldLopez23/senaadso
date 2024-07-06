@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AutenticaController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
-Route::view('/', 'inicio')->name('inicio');
+Route::view('/', 'welcome')->name('welcome');
 
 // Rutas para categorías
 Route::resource('categorias', CategoriaController::class);
@@ -27,3 +31,19 @@ Route::put('/perfil/password/{user}', [AutenticaController::class, 'updatePasswo
 // Rutas para pedidos
 Route::resource('pedidos', PedidoController::class)->except(['create', 'show']);
 Route::get('/pedidos/create/{producto}', [PedidoController::class, 'createWithProduct'])->name('pedidos.createWithProduct');
+
+// Rutas para restablecimiento de contraseña
+Route::get('password/reset', [PasswordResetLinkController::class, 'create'])->name('password.request');
+Route::post('password/email', [PasswordResetLinkController::class, 'store'])->name('password.email');
+
+// Rutas para solicitar y enviar el enlace de restablecimiento de contraseña
+Route::get('password/reset', [PasswordResetLinkController::class, 'create'])->name('password.request');
+Route::post('password/email', [PasswordResetLinkController::class, 'store'])->name('password.email');
+
+// Rutas para mostrar y procesar el formulario de restablecimiento de contraseña
+Route::get('password/reset/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('password/reset', [PasswordController::class, 'reset'])->name('password.update');
+
+// Rutas para el controlador NewPasswordController
+Route::get('password/reset/new/{token}', [NewPasswordController::class, 'create'])->name('password.reset.new.form');
+Route::post('password/reset/new', [NewPasswordController::class, 'store'])->name('password.update.new');

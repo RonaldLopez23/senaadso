@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('titulo', 'Ingresar al sistema')
+
 @section('cabecera', 'Ingresar al sistema')
 
 @section('contenido')
@@ -11,34 +12,33 @@
             <div>
                 @if ($errors->any())
                     @foreach ($errors->all() as $error)
-                        <div class="badge badge-warning">{{ $error }}</div>
+                        <div class="badge badge-warning">{{$error}}</div>
                     @endforeach
                 @endif
             </div>
-
-            <form action="{{ route('login.store') }}" method="POST">
+            <form action="{{route('login.store')}}" method="POST">
                 @csrf
-
                 {{-- Email --}}
                 <div class="form-control">
                     <label class="label" for="email">
                         <span class="label-text">Email</span>
                     </label>
-                    <input type="email" name="email" placeholder="Ingrese su correo electrónico">
+                    <input type="email" name="email" placeholder="Escriba su email" maxlength="255" class="input input-sm input-bordered" required value="{{old('email')}}" />
                 </div>
-
                 {{-- Contraseña --}}
                 <div class="form-control">
                     <label class="label" for="password">
-                        <span class="label-text">Contraseña</span>
+                        <span class="label-text">Password</span>
                     </label>
-                    <input type="password" name="password" placeholder="Ingrese su contraseña">
+                    <input type="password" name="password" placeholder="Mínimo 5 caracteres" maxlength="45" class="input input-sm input-bordered" required />
                 </div>
-
                 {{-- Botón Ingresar --}}
                 <div class="form-control mt-6">
-                    <button type="submit" class="btn btn-sm btn-primary">Ingresar</button>
-                    <a href="{{ route('inicio') }}" class="btn btn-sm btn-secondary ml-2">Cancelar</a>
+                    <button class="btn btn-sm btn-primary">Ingresar</button>
+                    <a href="{{ route('welcome') }}" class="btn btn-sm btn-outline btn-primary mt-4">Cancelar</a>
+                </div>
+                <div class="form-control mt-4 text-center">
+                    <a href="{{ route('password.request') }}" class="link link-primary">¿Olvidaste tu contraseña?</a>
                 </div>
             </form>
         </div>

@@ -11,22 +11,15 @@ class CheckAdmin
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Verificar que el usuario esté autenticado
-        if (!auth()->check()) {
-            abort(403, 'Acceso no autorizado.');
+        //verificar que el rol del usuario sea admin
+        if(auth()->user()->rol !== 'admin'){
+            abort(403);
         }
-
-        // Verificar que el rol del usuario sea admin
-        if (auth()->user()->rol !== 'admin') {
-            abort(403, 'Acceso no autorizado.');
-        }
-
         return $next($request);
     }
+    
 }

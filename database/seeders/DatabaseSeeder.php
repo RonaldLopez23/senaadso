@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,14 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear un usuario administrador
-        User::factory()->create([
-            'name' => 'Administrador del sistema',
-            'email' => 'admin@email.co',
-            'rol' => 'admin'
-        ]);
-
-        // Crear 10 usuarios clientes
-        User::factory(10)->create();
+         // \App\Models\User::factory(10)->create();
+         $this->call(CategoriaSeeder::class);
+         
+        // Llama al UserSeeder para poblar la base de datos con los usuarios especificados
+        $this->call(UserSeeder::class);
+       
+         
     }
+
+    
 }

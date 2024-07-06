@@ -7,53 +7,71 @@ use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
+    //Protegemos las rutas de este controlador con el middleware auth y admin (autenticado y rol de admin)
     public function __construct()
     {
+        //Sólo los usuarios autenticados y con rol de admin pueden acceder a todos los métodos de este controlador
         $this->middleware('auth');
         $this->middleware('admin');
     }
-
+    
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $categorias = Categoria::all();
-        return view('categorias.index', compact('categorias'));
+        return view('categorias.index', ['categorias' => $categorias]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         return view('categorias.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|max:100',
-            'descripcion' => 'nullable',
-        ]);
-
         Categoria::create($request->all());
-        return redirect()->route('categorias.index')->with('info', 'Categoría creada exitosamente.');
+        return to_route('categorias.index')->with('info', 'Categoría creada con éxito');
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(Categoria $categoria)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Categoria $categoria)
     {
-        return view('categorias.edit', compact('categoria'));
-    }
-    
-    public function update(Request $request, Categoria $categoria)
-    {
-        $request->validate([
-            'nombre' => 'required|max:100',
-            'descripcion' => 'nullable',
-        ]);
-    
-        $categoria->update($request->all());
-        return redirect()->route('categorias.index')->with('info', 'Categoría actualizada exitosamente.');
+        return view('categorias.edit', ['categoria' => $categoria]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Categoria $categoria)
+    {
+        $categoria->update($request->all());
+        return to_route('categorias.index')->with('info', 'Categoría actualizada con éxito');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Categoria $categoria)
     {
         $categoria->delete();
-        return redirect()->route('categorias.index')->with('info', 'Categoría eliminada exitosamente.');
+        return to_route('categorias.index')->with('info', 'Categoría eliminada con éxito');
     }
 }

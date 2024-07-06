@@ -44,12 +44,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Relación con el modelo Pedido.
-     * Un usuario puede tener muchos pedidos.
-     */
-    public function pedidos()
-    {
-        return $this->hasMany(Pedido::class);
+    public function pedidos(){
+        return $this->hasMany(Pedido::class); //Un usuario puede tener varios pedidos
     }
 }
