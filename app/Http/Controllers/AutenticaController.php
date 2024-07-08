@@ -115,4 +115,15 @@ class AutenticaController extends Controller
         return back()->with('info', 'Contraseña actualizada correctamente');
     }
 
+    public function perfilEdit(User $user)
+{
+    return view('autenticacion.perfil-edit', compact('user'));
+}
+
+public function perfilPasswordEdit(User $user)
+{
+    return view('autenticacion.perfil-password-edit', compact('user'));
+}
+
+
 }

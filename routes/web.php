@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
@@ -24,8 +25,10 @@ Route::view('/login', 'autenticacion.login')->name('login');
 Route::post('/login', [AutenticaController::class, 'login'])->name('login.store');
 Route::post('/logout', [AutenticaController::class, 'logout'])->name('logout');
 Route::get('/perfil', [AutenticaController::class, 'perfil'])->name('perfil');
-Route::put('/perfil/{user}', [AutenticaController::class, 'updatePerfil'])->name('perfil.update');
-Route::put('/perfil/password/{user}', [AutenticaController::class, 'updatePassword'])->name('perfil.password.update');
+Route::get('/perfil/editar/{user}', [AutenticaController::class, 'perfilEdit'])->name('perfil.edit');
+Route::put('/perfil/{user}', [AutenticaController::class, 'perfilUpdate'])->name('perfil.update');
+Route::get('/perfil/password/editar/{user}', [AutenticaController::class, 'perfilPasswordEdit'])->name('perfil.password.edit');
+Route::put('/perfil/password/{user}', [AutenticaController::class, 'passwordUpdate'])->name('perfil.password.update');
 
 // Rutas para pedidos
 Route::resource('pedidos', PedidoController::class)->except(['create', 'show']);
@@ -36,8 +39,3 @@ Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->n
 Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
-
-// routes/web.php
-
-Route::put('/perfil/{user}/password', [AutenticaController::class, 'updatePassword'])
-    ->name('perfil.password.update');

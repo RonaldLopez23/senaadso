@@ -15,7 +15,9 @@
         <p>Email: {{ $user->email }}</p>
         <p>Dirección: {{ $user->address }}</p>
         <a href="{{ route('perfil.edit', ['user' => $user->id]) }}" class="btn btn-sm btn-neutral normal-case">Editar Perfil</a>
+
         <a href="{{ route('perfil.password.edit', ['user' => $user->id]) }}" class="btn btn-sm btn-primary normal-case">Cambiar Contraseña</a>
+        
     </div>
 </div>
 

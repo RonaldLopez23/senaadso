@@ -8,13 +8,13 @@
             <div class="card-body">
                 {{-- Imagen --}}
                 <div>
-                    @if(file_exists('images/productos/producto_' . $producto->id . '.jpg'))
-                        <img src="{{ asset('images/productos/producto_' . $producto->id . '.jpg') }}" alt="{{$producto->nombre}}" class="rounded-t-lg h-40 w-full object-cover">
+                    @if(file_exists('images/productos/producto_' . $producto->id . '.' . pathinfo($producto->imagen, PATHINFO_EXTENSION)))
+                        <img src="{{ asset('images/productos/producto_' . $producto->id . '.' . pathinfo($producto->imagen, PATHINFO_EXTENSION)) }}" alt="{{ $producto->nombre }}" class="rounded-t-lg h-40 w-full object-cover">
                     @else
-                        <img src="{{ asset('images/productos/default.jpg') }}" alt="{{$producto->nombre}}" class="rounded-t-lg">
+                        <img src="{{ asset('images/productos/default.jpg') }}" alt="{{ $producto->nombre }}" class="rounded-t-lg">
                     @endif
                 </div>
-                <form action="{{route('productos.update', $producto)}}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('productos.update', $producto) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     {{-- Categoria --}}
@@ -25,47 +25,48 @@
                         <select name="categoria_id" class="select select-bordered">
                             @foreach ($categorias as $categoria)
                                 @if ($categoria->id == $producto->categoria_id)
-                                    <option value="{{$categoria->id}}" selected>{{$categoria->nombre}}</option>
+                                    <option value="{{ $categoria->id }}" selected>{{ $categoria->nombre }}</option>
                                 @else
-                                    <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+                                    <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
                                 @endif
                             @endforeach
                         </select>
                     </div>
                     {{-- Nombre --}}
                     <div class="form-control">
-                    <label class="label" for="nombre">
-                        <span class="label-text">Nombre</span>
-                    </label>
-                    <input type="text" name="nombre" placeholder="Nombre del producto" class="input input-bordered" maxlength="100" value="{{$producto->nombre}}" required />
+                        <label class="label" for="nombre">
+                            <span class="label-text">Nombre</span>
+                        </label>
+                        <input type="text" name="nombre" placeholder="Nombre del producto" class="input input-bordered" maxlength="100" value="{{ $producto->nombre }}" required />
                     </div>
                     {{-- Imagen --}}
                     <div class="form-control">
                         <label class="label" for="imagen">
                             <span class="label-text">Cambiar imagen</span>
                         </label>
-                        <input type="file" name="imagen" class="file-input file-input-bordered file-input-success file-input-sm w-full max-w-xs"  accept=".jpg" />
+                        <input type="file" name="imagen" class="file-input file-input-bordered file-input-success file-input-sm w-full max-w-xs" onchange="previewImage(event)" />
+                        <img id="preview" src="{{ asset('images/productos/producto_' . $producto->id . '.' . pathinfo($producto->imagen, PATHINFO_EXTENSION)) }}" alt="Preview de la imagen seleccionada" style="max-width: 100%; margin-top: 10px;">
                     </div>
                     {{-- Descripcion --}}
                     <div class="form-control">
                         <label class="label" for="descripcion">
                             <span class="label-text">Descripción</span>
                         </label>
-                        <input type="text" name="descripcion" placeholder="Escriba la descripción" class="input input-bordered" maxlength="255" value="{{$producto->descripcion}}" />
+                        <input type="text" name="descripcion" placeholder="Escriba la descripción" class="input input-bordered" maxlength="255" value="{{ $producto->descripcion }}" />
                     </div>
                     {{-- Precio --}}
                     <div class="form-control">
                         <label class="label" for="precio">
                             <span class="label-text">Precio</span>
                         </label>
-                        <input type="number" name="precio" placeholder="Escriba el precio" class="input input-bordered" value="{{$producto->precio}}" required />
+                        <input type="number" name="precio" placeholder="Escriba el precio" class="input input-bordered" value="{{ $producto->precio }}" required />
                     </div>
                     {{-- Stock --}}
                     <div class="form-control">
                         <label class="label" for="stock">
                             <span class="label-text">Stock</span>
                         </label>
-                        <input type="number" name="stock" placeholder="Escriba el stock" class="input input-bordered" value="{{$producto->stock}}" required />
+                        <input type="number" name="stock" placeholder="Escriba el stock" class="input input-bordered" value="{{ $producto->stock }}" required />
                     </div>
 
                     <div class="form-control mt-6">

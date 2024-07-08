@@ -43,10 +43,18 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|integer',
+            'stock' => 'required|integer',
+            'image' => 'nullable|url',
+            'categoria_id' => 'required|exists:categorias,id',
+        ]);
+
         Producto::create($request->all());
         return redirect()->route('productos.index')->with('info', 'Producto creado con éxito');
     }
-
     /**
      * Display the specified resource.
      */
@@ -69,10 +77,18 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|integer',
+            'stock' => 'required|integer',
+            'image' => 'nullable|url',
+            'categoria_id' => 'required|exists:categorias,id',
+        ]);
+
         $producto->update($request->all());
         return redirect()->route('productos.index')->with('info', 'Producto actualizado con éxito');
     }
-
     /**
      * Remove the specified resource from storage.
      */

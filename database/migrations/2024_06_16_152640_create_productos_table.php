@@ -19,6 +19,7 @@ class CreateProductosTable extends Migration
             $table->string('descripcion')->nullable(); //El campo puede ser nulo
             $table->integer('precio');
             $table->integer('stock');
+            $table->string('image')->nullable(); // Campo para la imagen
             $table->foreignId('categoria_id')->constrained();
             $table->timestamps();
         });

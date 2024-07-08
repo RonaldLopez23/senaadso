@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('titulo', 'Minimercado')</title>
+    <title>@yield('titulo', 'SGIM')</title>
     @vite('resources/css/app.css')
 </head>
 <body>
@@ -31,7 +31,7 @@
     </main>
     <footer class="footer footer-center p-4 bg-base-300 text-base-content mt-12">
         <div>
-          <p>Copyright © 2024 - MiniMercado</p>
+          <p>Copyright © 2024 - SGIM</p>
         </div>
     </footer>
 </body>

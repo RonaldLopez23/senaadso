@@ -28,14 +28,13 @@ class PedidoController extends Controller
         return view('pedidos.index', ['pedidos' => $pedidos]);
     }
 
-    /**
-     * Show the form for creating a new resource.
+   /**
+     * Muestra el formulario para crear un nuevo pedido con un producto específico.
      */
-    public function create(Producto $producto)
+    public function createWithProduct(Producto $producto)
     {
         return view('pedidos.create', ['producto' => $producto]);
     }
-
     /**
      * Store a newly created resource in storage.
      */
